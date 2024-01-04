@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <ul></ul>
+    </div>
+ 
+    <input type="text" name="" id="inputByAdd">
+    <button type="button" id="buttonByAdd">新增</button>
+
+    <script>
+    //database
+        const data =[
+            {
+                id:1,
+                content:'我是卡斯伯'
+            },
+            {
+                id:2,
+                content:'我是小明'
+            }
+        ];
+        let num = data.length;
+
+        //dom
+        const app = document.querySelector('#app ul');
+        console.log(app)
+        //渲染
+        function render(){
+            let template = '';
+            data.forEach((item)=>{
+                template += `<li >${item.content}<button type='button' class='removeBtn' data-id=${item.id} >刪除</button></li>`
+            });
+            app.innerHTML = template;
+            const removeBtn = document.querySelectorAll('.removeBtn');
+            console.log(removeBtn);
+            removeBtn.forEach((item)=>{
+                item.addEventListener('click', (e)=>{
+                    let id = Number(e.target.dataset.id);
+                    console.log(id);
+                    removeItem(id)
+                })
+            })
+        }
+
+        render();
+        //新增
+        //dom
+        const inputByAdd = document.querySelector('#inputByAdd');
+        const buttonByAdd = document.querySelector('#buttonByAdd')
+
+        function addItem(content){
+            num++;
+            data.push({
+                id:num,
+                content
+            });
+            inputByAdd.value='';
+            render();
+        }
+
+        buttonByAdd.addEventListener('click', (e)=>{
+            if(inputByAdd.value == ''){
+                return
+            }else{
+                addItem(inputByAdd.value)
+            }
+           
+        });
+
+        //刪除
+        function removeItem(i){
+            const index = data.findIndex((item)=>item.id == i); 
+            console.log(index);
+            data.splice(index,1);
+            render();
+        };
+
+        
+        
+
+    </script>
+
+    
+</body>
+</html>
